@@ -22,8 +22,8 @@ Usage of ./costa-rewrite:
     	an Input name for reading data (default "example_input.csv")
   -outputName string
     	an Output name for writing data (default "output.csv")
-  -rewriteUrl string
-    	rewrite url (default "http://localhost:9999")
+  -rewriteHost string
+    	rewrite host (default "http://localhost:9999")
 ```
 
 #### Run with custom param 
