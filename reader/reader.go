@@ -2,12 +2,12 @@ package reader
 
 import (
 	"encoding/csv"
-	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
-	Utils "github.com/DeKal/costa-rewrite/utils"
 	"io"
-	"log"
 	"os"
 	"strings"
+
+	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
+	Utils "github.com/DeKal/costa-rewrite/utils"
 )
 
 const (
@@ -25,11 +25,27 @@ const (
 func ReadSearchTermsFromExcel(inputCsvFileName string) []DataFormat.AutoCorrectRow {
 	file, _ := os.Open(inputCsvFileName)
 	defer file.Close()
-
 	csvr := csv.NewReader(file)
 	csvHeader := ReadHeader(csvr)
-	log.Println(csvHeader)
 	return ReadSearchTerms(csvr, csvHeader)
+}
+
+// ReadHeader readheader from csv file and return a field map
+func ReadHeader(csvr *csv.Reader) map[string]int {
+	fieldMap := map[string]int{}
+	header, err := csvr.Read()
+	if err == io.EOF {
+		return fieldMap
+	}
+	for index, field := range header {
+		fieldMap[field] = index
+	}
+
+	return fieldMap
+}
+
+func isSG(row []string) bool {
+	return (len(row[6]) > 0)
 }
 
 // ReadSearchTerms from file
@@ -41,7 +57,6 @@ func ReadSearchTerms(csvr *csv.Reader, fieldMap map[string]int) []DataFormat.Aut
 			return autoCorrects
 		}
 		if isSG(row) {
-
 			searchTerm, correctedTerm := SplitResult(row[fieldMap[labelResult]])
 			autoCorrect := DataFormat.AutoCorrectRow{
 				Rating:            row[fieldMap[rating]],
@@ -64,22 +79,4 @@ func SplitResult(result string) (string, string) {
 	}
 
 	return searchTerm, correctedTerm
-}
-
-// ReadHeader readheader from csv file and return a field map
-func ReadHeader(csvr *csv.Reader) map[string]int {
-	fieldMap := map[string]int{}
-	header, err := csvr.Read()
-	if err == io.EOF {
-		return fieldMap
-	}
-	for index, field := range header {
-		fieldMap[field] = index
-	}
-
-	return fieldMap
-}
-
-func isSG(row []string) bool {
-	return (len(row[6]) > 0)
 }

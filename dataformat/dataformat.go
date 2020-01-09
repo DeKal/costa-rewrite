@@ -13,9 +13,9 @@ type AutoCorrectRow struct {
 
 // RewriteResponse format
 type RewriteResponse struct {
-  SearchTerm  string `json:“search_term”`
-  CorrectTerm string `json:“correct_term”`
-  Count       int    `json:“count”`
+  SearchTerm  string `json:"search_term"`
+  CorrectTerm string `json:"correct_term"`
+  Count       int    `json:"count"`
 }
 
 // CommandLineArgs format
