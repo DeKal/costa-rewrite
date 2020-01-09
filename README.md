@@ -1,6 +1,11 @@
 ### Description
 Analyzing data return from public API of Costa Rewrite
 
+### Prerequisite
+- Input CSV file
+- Default CSV file name `example_input.csv`
+- CSV file must have Header view sample file `example_input.csv`
+
 #### Run with Default param
 ```
 ./run.sh 
