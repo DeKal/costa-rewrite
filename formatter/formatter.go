@@ -1,8 +1,10 @@
 package formatter
 
 import (
-	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
+	"fmt"
 	"strconv"
+
+	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
 )
 
 // FormatCsvRow return rewrite response as row
@@ -15,12 +17,13 @@ func FormatCsvRow(response DataFormat.RewriteResponse, autoCorrectRow DataFormat
 			response.SearchTerm,
 			response.CorrectTerm,
 			strconv.FormatInt(int64(response.Count), 10),
-			evaluationLabel(autoCorrectRow.OriginCorrectTerm, response.CorrectTerm),
+			EvaluationLabel(autoCorrectRow.OriginCorrectTerm, response.CorrectTerm),
 		},
 	}
 }
 
-func evaluationLabel(originCorrectTerm string, correctTerm string) string {
+// EvaluationLabel return evaluation label
+func EvaluationLabel(originCorrectTerm string, correctTerm string) string {
 	isExpectedEqualAnalyzing := originCorrectTerm == correctTerm
 	if len(correctTerm) == 0 {
 		return ""
@@ -29,4 +32,10 @@ func evaluationLabel(originCorrectTerm string, correctTerm string) string {
 		return "Correct Label"
 	}
 	return "Different Label"
+}
+
+// FormatLinkPattern return evaluation label
+func FormatLinkPattern(host string, searchTerm string) string {
+	rewriteLinkPattern := "%s/_c/v1/search/rewrite/?q=%s&lang=en&segment=women"
+	return fmt.Sprintf(rewriteLinkPattern, host, searchTerm)
 }

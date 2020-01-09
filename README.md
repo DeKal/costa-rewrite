@@ -23,10 +23,10 @@ Usage of ./costa-rewrite:
   -outputName string
     	an Output name for writing data (default "output.csv")
   -rewriteUrl string
-    	rewrite url (default "http://localhost:9999/_c/v1/search/rewrite/?q=%s&lang=en&segment=women")
+    	rewrite url (default "http://localhost:9999")
 ```
 
 #### Run with custom param 
 ```
-./run.sh -country SG -inputName example_input.csv -outputName output.csv -rewriteUrl rewrite-url-example.com
+./run.sh -country SG -inputName example_input.csv -outputName output.csv -rewriteHost rewrite-url-example.com
 ```

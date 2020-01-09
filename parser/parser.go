@@ -39,14 +39,14 @@ func Parse(response string) DataFormat.RewriteResponse {
 // ParseCommandLineParams parse args from cmd
 func ParseCommandLineParams() DataFormat.CommandLineArgs {
 	const (
-		defaultCsvInput           = "example_input.csv"
-		defaultCsvOutput          = "output.csv"
-		defaultRewriteLinkPattern = "http://localhost:9999/_c/v1/search/rewrite/?q=%s&lang=en&segment=women"
-		defaultCountryCode        = "SG"
+		defaultCsvInput    = "example_input.csv"
+		defaultCsvOutput   = "output.csv"
+		defaultRewriteHost = "http://localhost:9999"
+		defaultCountryCode = "SG"
 	)
 
-	var rewriteURL string
-	flag.StringVar(&rewriteURL, "rewriteUrl", defaultRewriteLinkPattern, "rewrite url")
+	var rewriteHost string
+	flag.StringVar(&rewriteHost, "rewriteHost", defaultRewriteHost, "rewrite host")
 
 	var csvInput string
 	flag.StringVar(&csvInput, "inputName", defaultCsvInput, "an Input name for reading data")
@@ -60,9 +60,9 @@ func ParseCommandLineParams() DataFormat.CommandLineArgs {
 	flag.Parse()
 
 	return DataFormat.CommandLineArgs{
-		CsvInput:           csvInput,
-		CsvOutput:          csvOutput,
-		RewriteLinkPattern: rewriteURL,
-		Country:            country,
+		CsvInput:    csvInput,
+		CsvOutput:   csvOutput,
+		RewriteHost: rewriteHost,
+		Country:     country,
 	}
 }

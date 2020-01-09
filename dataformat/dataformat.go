@@ -18,6 +18,6 @@ type RewriteResponse struct {
 type CommandLineArgs struct {
   CsvInput  string 
   CsvOutput string 
-	RewriteLinkPattern string  
+	RewriteHost string  
 	Country string
 }

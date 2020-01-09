@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
 	Formatter "github.com/DeKal/costa-rewrite/formatter"
 	Parser "github.com/DeKal/costa-rewrite/parser"
@@ -28,8 +26,7 @@ func main() {
 	autoCorrects := Reader.ReadSearchTermsFromExcel(params.CsvInput, params.Country)
 	csvContent := [][]string{}
 	for _, autoCorrect := range autoCorrects {
-		searchTerm := autoCorrect.OriginSearchTerm
-		searchURL := fmt.Sprintf(params.RewriteLinkPattern, searchTerm)
+		searchURL := Formatter.FormatLinkPattern(params.RewriteHost, autoCorrect.OriginSearchTerm)
 		resp, err := Parser.Get(searchURL)
 		if err == nil {
 			response := Parser.Parse(resp)
