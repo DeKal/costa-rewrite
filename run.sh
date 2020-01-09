@@ -1,2 +1,2 @@
 go build 
-./costa-rewrite
+./costa-rewrite "$@"

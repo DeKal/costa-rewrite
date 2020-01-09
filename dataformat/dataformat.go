@@ -18,6 +18,13 @@ type RewriteResponse struct {
   Count       int    `json:“count”`
 }
 
+// CommandLineArgs format
+type CommandLineArgs struct {
+  CsvInput  string 
+  CsvOutput string 
+  RewriteLinkPattern string  
+}
+
 // FormatCsvRow return rewrite response as row
 func FormatCsvRow(response RewriteResponse, autoCorrectRow AutoCorrectRow) [][]string {
 	return [][]string{
