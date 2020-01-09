@@ -22,7 +22,8 @@ type RewriteResponse struct {
 type CommandLineArgs struct {
   CsvInput  string 
   CsvOutput string 
-  RewriteLinkPattern string  
+	RewriteLinkPattern string  
+	Country string
 }
 
 // FormatCsvRow return rewrite response as row

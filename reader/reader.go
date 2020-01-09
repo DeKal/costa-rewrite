@@ -3,6 +3,7 @@ package reader
 import (
 	"encoding/csv"
 	"io"
+	"log"
 	"os"
 	"strings"
 
@@ -22,12 +23,16 @@ const (
 )
 
 // ReadSearchTermsFromExcel from file excel
-func ReadSearchTermsFromExcel(inputCsvFileName string) []DataFormat.AutoCorrectRow {
+func ReadSearchTermsFromExcel(inputCsvFileName string, country string) []DataFormat.AutoCorrectRow {
 	file, _ := os.Open(inputCsvFileName)
 	defer file.Close()
 	csvr := csv.NewReader(file)
 	csvHeader := ReadHeader(csvr)
-	return ReadSearchTerms(csvr, csvHeader)
+	if _, ok := csvHeader[country]; !ok {
+		log.Fatal("Country code is not existed")
+		os.Exit(1)
+	}
+	return ReadSearchTerms(csvr, csvHeader, country)
 }
 
 // ReadHeader readheader from csv file and return a field map
@@ -44,19 +49,15 @@ func ReadHeader(csvr *csv.Reader) map[string]int {
 	return fieldMap
 }
 
-func isSG(row []string) bool {
-	return (len(row[6]) > 0)
-}
-
 // ReadSearchTerms from file
-func ReadSearchTerms(csvr *csv.Reader, fieldMap map[string]int) []DataFormat.AutoCorrectRow {
+func ReadSearchTerms(csvr *csv.Reader, fieldMap map[string]int, country string) []DataFormat.AutoCorrectRow {
 	autoCorrects := []DataFormat.AutoCorrectRow{}
 	for {
 		row, err := csvr.Read()
 		if err == io.EOF {
 			return autoCorrects
 		}
-		if isSG(row) {
+		if isTargetedCountry(row, fieldMap[country]) {
 			searchTerm, correctedTerm := SplitResult(row[fieldMap[labelResult]])
 			autoCorrect := DataFormat.AutoCorrectRow{
 				Rating:            row[fieldMap[rating]],
@@ -67,6 +68,10 @@ func ReadSearchTerms(csvr *csv.Reader, fieldMap map[string]int) []DataFormat.Aut
 		}
 
 	}
+}
+
+func isTargetedCountry(row []string, countryPos int) bool {
+	return len(row[countryPos]) > 0
 }
 
 // SplitResult split result by >

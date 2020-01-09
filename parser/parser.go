@@ -42,6 +42,7 @@ func ParseCommandLineParams() DataFormat.CommandLineArgs {
 		defaultCsvInput           = "example_input.csv"
 		defaultCsvOutput          = "output.csv"
 		defaultRewriteLinkPattern = "http://localhost:9999/_c/v1/search/rewrite/?q=%s&lang=en&segment=women"
+		defaultCountryCode        = "SG"
 	)
 
 	var rewriteURL string
@@ -53,11 +54,15 @@ func ParseCommandLineParams() DataFormat.CommandLineArgs {
 	var csvOutput string
 	flag.StringVar(&csvOutput, "outputName", defaultCsvOutput, "an Output name for writing data")
 
+	var country string
+	flag.StringVar(&country, "country", defaultCountryCode, "country filter for some specific word [ HK, ID, MY, PH, SG, TW]")
+
 	flag.Parse()
 
 	return DataFormat.CommandLineArgs{
 		CsvInput:           csvInput,
 		CsvOutput:          csvOutput,
 		RewriteLinkPattern: rewriteURL,
+		Country:            country,
 	}
 }

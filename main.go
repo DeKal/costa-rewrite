@@ -16,7 +16,7 @@ var csvHeader = [][]string{
 func main() {
 	params := Parser.ParseCommandLineParams()
 
-	autoCorrects := Reader.ReadSearchTermsFromExcel(params.CsvInput)
+	autoCorrects := Reader.ReadSearchTermsFromExcel(params.CsvInput, params.Country)
 	csvContent := [][]string{}
 	for _, autoCorrect := range autoCorrects {
 		searchTerm := autoCorrect.OriginSearchTerm
