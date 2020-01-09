@@ -1,6 +1,5 @@
-## Just a Project to analyze data return from public API of Costa Rewrite
-
-### Run
+### Description
+Analyzing data return from public API of Costa Rewrite
 
 #### Run with Default param
 ```
@@ -10,7 +9,7 @@
 #### Help
 ```
 ./run.sh --help
-_______________________________________________________________________
+
 Usage of ./costa-rewrite:
   -inputName string
     	an Input name for reading data (default "example_input.csv")
