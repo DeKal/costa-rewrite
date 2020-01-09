@@ -4,13 +4,22 @@ import (
 	"fmt"
 
 	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
+	Formatter "github.com/DeKal/costa-rewrite/formatter"
 	Parser "github.com/DeKal/costa-rewrite/parser"
 	Reader "github.com/DeKal/costa-rewrite/reader"
 	Writer "github.com/DeKal/costa-rewrite/writer"
 )
 
 var csvHeader = [][]string{
-	{"Label", "Orginal Search Term", "Original Corrected Term", "Search Term", "Correct Term", "Count"},
+	{
+		"Label",
+		"Orginal Search Term",
+		"Original Corrected Term",
+		"Search Term",
+		"Correct Term",
+		"Count",
+		"Correction",
+	},
 }
 
 func main() {
@@ -32,6 +41,6 @@ func main() {
 
 // AddResultToCsvContent return new CSV content after appending rewrite response
 func AddResultToCsvContent(csvContent [][]string, response DataFormat.RewriteResponse, autoCorrectRow DataFormat.AutoCorrectRow) [][]string {
-	csvRow := DataFormat.FormatCsvRow(response, autoCorrectRow)
+	csvRow := Formatter.FormatCsvRow(response, autoCorrectRow)
 	return append(csvContent, csvRow...)
 }

@@ -1,9 +1,5 @@
 package dataformat
 
-import (
-	"strconv"
-)
-
 // AutoCorrectRow format
 type AutoCorrectRow struct {
   OriginSearchTerm  string
@@ -25,21 +21,3 @@ type CommandLineArgs struct {
 	RewriteLinkPattern string  
 	Country string
 }
-
-// FormatCsvRow return rewrite response as row
-func FormatCsvRow(response RewriteResponse, autoCorrectRow AutoCorrectRow) [][]string {
-	return [][]string{
-		{
-			autoCorrectRow.Rating,
-			autoCorrectRow.OriginSearchTerm,
-			autoCorrectRow.OriginCorrectTerm,
-			response.SearchTerm,
-			response.CorrectTerm,
-			strconv.FormatInt(int64(response.Count), 10),
-		},
-	}
-}
-
-
-
-
