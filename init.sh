@@ -1,0 +1,1 @@
+go mod init github.com/DeKal/costa-rewrite
