@@ -16,6 +16,8 @@ Analyzing data return from public API of Costa Rewrite
 ./run.sh --help
 
 Usage of ./costa-rewrite:
+  -country string
+    	country filter for some specific word [ HK, ID, MY, PH, SG, TW] (default "SG")
   -inputName string
     	an Input name for reading data (default "example_input.csv")
   -outputName string
@@ -26,5 +28,5 @@ Usage of ./costa-rewrite:
 
 #### Run with custom param 
 ```
-./run.sh -inputName example_input.csv -outputName output.csv -rewriteUrl rewrite-url-example.com
+./run.sh -country SG -inputName example_input.csv -outputName output.csv -rewriteUrl rewrite-url-example.com
 ```
