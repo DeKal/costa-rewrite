@@ -39,11 +39,21 @@ func Parse(response string) DataFormat.RewriteResponse {
 // ParseCommandLineParams parse args from cmd
 func ParseCommandLineParams() DataFormat.CommandLineArgs {
 	const (
+		defaultMode        = "normal"
+		defaultFileName1   = "output"
+		defaultFileName2   = "output-2"
 		defaultCsvInput    = "example_input.csv"
 		defaultCsvOutput   = "output.csv"
 		defaultRewriteHost = "http://localhost:9999"
 		defaultCountryCode = "SG"
 	)
+	var mode string
+	flag.StringVar(&mode, "mode", defaultMode, "mode: [normal, compare]")
+
+	var cmpFile1 string
+	flag.StringVar(&cmpFile1, "file1", defaultFileName1, "file name 1")
+	var cmpFile2 string
+	flag.StringVar(&cmpFile2, "file2", defaultFileName2, "file name 2")
 
 	var rewriteHost string
 	flag.StringVar(&rewriteHost, "rewriteHost", defaultRewriteHost, "rewrite host")
@@ -55,14 +65,22 @@ func ParseCommandLineParams() DataFormat.CommandLineArgs {
 	flag.StringVar(&csvOutput, "outputName", defaultCsvOutput, "an Output name for writing data")
 
 	var country string
-	flag.StringVar(&country, "country", defaultCountryCode, "country filter for some specific word [ HK, ID, MY, PH, SG, TW]")
+	flag.StringVar(&country, "country", defaultCountryCode, "country filter for some specific word [HK, ID, MY, PH, SG, TW]")
 
 	flag.Parse()
 
 	return DataFormat.CommandLineArgs{
-		CsvInput:    csvInput,
-		CsvOutput:   csvOutput,
-		RewriteHost: rewriteHost,
-		Country:     country,
+		Mode:         mode,
+		CompareFile1: cmpFile1,
+		CompareFile2: cmpFile2,
+		CsvInput:     csvInput,
+		CsvOutput:    csvOutput,
+		RewriteHost:  rewriteHost,
+		Country:      country,
 	}
+}
+
+// IsNormalMode Check if mode is normal
+func IsNormalMode(mode string) bool {
+	return mode == "normal"
 }

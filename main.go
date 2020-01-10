@@ -1,43 +1,16 @@
 package main
 
 import (
-	DataFormat "github.com/DeKal/costa-rewrite/dataformat"
-	Formatter "github.com/DeKal/costa-rewrite/formatter"
+	ModeCompare "github.com/DeKal/costa-rewrite/mode/compare"
+	ModeNormal "github.com/DeKal/costa-rewrite/mode/normal"
 	Parser "github.com/DeKal/costa-rewrite/parser"
-	Reader "github.com/DeKal/costa-rewrite/reader"
-	Writer "github.com/DeKal/costa-rewrite/writer"
 )
-
-var csvHeader = [][]string{
-	{
-		"Label",
-		"Orginal Search Term",
-		"Original Corrected Term",
-		"Search Term",
-		"Correct Term",
-		"Count",
-		"Correction",
-	},
-}
 
 func main() {
 	params := Parser.ParseCommandLineParams()
-
-	autoCorrects := Reader.ReadSearchTermsFromExcel(params.CsvInput, params.Country)
-	csvContent := [][]string{}
-	for _, autoCorrect := range autoCorrects {
-		searchURL := Formatter.FormatLinkPattern(params.RewriteHost, autoCorrect.OriginSearchTerm)
-		resp, err := Parser.Get(searchURL)
-		if err == nil {
-			response := Parser.Parse(resp)
-			csvContent = AddResultToCsvContent(csvContent, response, autoCorrect)
-		}
+	if Parser.IsNormalMode(params.Mode) {
+		ModeNormal.RunRewriteAndProduceReports(params)
+	} else {
+		ModeCompare.Compare2Report(params)
 	}
-	Writer.WriteCsvFile(params.CsvOutput, csvHeader, csvContent)
-}
-
-// AddResultToCsvContent return new CSV content after appending rewrite response
-func AddResultToCsvContent(csvContent [][]string, response DataFormat.RewriteResponse, autoCorrectRow DataFormat.AutoCorrectRow) [][]string {
-	csvRow := Formatter.FormatCsvRow(response, autoCorrectRow)
-	return append(csvContent, csvRow...)
 }

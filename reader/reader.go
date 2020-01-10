@@ -12,14 +12,19 @@ import (
 )
 
 const (
-	rating      = "Autocorrect Rating"
-	labelResult = "Event Label"
-	hk          = "HK"
-	id          = "ID"
-	my          = "MY"
-	ph          = "PH"
-	sh          = "SG"
-	tw          = "TW"
+	rating           = "Autocorrect Rating"
+	labelResult      = "Event Label"
+	hk               = "HK"
+	id               = "ID"
+	my               = "MY"
+	ph               = "PH"
+	sh               = "SG"
+	tw               = "TW"
+	label            = "Label"
+	searchTerm       = "Search Term"
+	correctTerm      = "Correct Term"
+	orgSearchTerm    = "Orginal Search Term"
+	orgCorrectedTerm = "Original Corrected Term"
 )
 
 // ReadSearchTermsFromExcel from file excel
@@ -84,4 +89,33 @@ func SplitResult(result string) (string, string) {
 	}
 
 	return searchTerm, correctedTerm
+}
+
+// ReadSearchCsvReport from file excel
+func ReadSearchCsvReport(inputCsvFileName string) []DataFormat.ReportRow {
+	file, _ := os.Open(inputCsvFileName)
+	defer file.Close()
+	csvr := csv.NewReader(file)
+	csvHeader := ReadHeader(csvr)
+	return ReadCsvReportRow(csvr, csvHeader)
+}
+
+// ReadCsvReportRow from file
+func ReadCsvReportRow(csvr *csv.Reader, fieldMap map[string]int) []DataFormat.ReportRow {
+	csvRows := []DataFormat.ReportRow{}
+	for {
+		row, err := csvr.Read()
+		if err == io.EOF {
+			return csvRows
+		}
+
+		csvRow := DataFormat.ReportRow{
+			Label:                row[fieldMap[label]],
+			OrginalSearchTerm:    row[fieldMap[orgSearchTerm]],
+			OrginalCorrectedTerm: row[fieldMap[orgCorrectedTerm]],
+			SearchTerm:           row[fieldMap[searchTerm]],
+			CorrectTerm:          row[fieldMap[correctTerm]],
+		}
+		csvRows = append(csvRows, csvRow)
+	}
 }
