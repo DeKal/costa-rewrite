@@ -36,6 +36,6 @@ func EvaluationLabel(originCorrectTerm string, correctTerm string) string {
 
 // FormatLinkPattern return evaluation label
 func FormatLinkPattern(host string, searchTerm string) string {
-	rewriteLinkPattern := "%s/_c/v1/search/rewrite/?q=%s&lang=en&segment=women"
+	rewriteLinkPattern := "%s/_c/v1/search/rewrite/?q=%s&lang=en"
 	return fmt.Sprintf(rewriteLinkPattern, host, searchTerm)
 }
