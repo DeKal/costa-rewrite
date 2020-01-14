@@ -41,3 +41,16 @@ Usage of ./costa-rewrite:
 ```
 ./run.sh -mode compare -file1 output-local-normal.csv -file2 output-local-remove.csv -outputName output.csv
 ```
+
+
+#### Full usage for analyzing
+```
+# Run Costa in normal mode (rewrite + brand)
+./run.sh -country SG -inputName "Search Autocorrect.csv"  -outputName output-normal.csv
+
+# Run Costa when removing brand suggestion
+./run.sh -country SG -inputName "Search Autocorrect.csv"  -outputName output-remove.csv
+
+# Output for further analyzing
+./run.sh -mode compare -file1 output-normal.csv -file2 output-remove.csv -outputName output-staging.csv
+```
